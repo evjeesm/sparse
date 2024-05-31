@@ -1,4 +1,4 @@
-#include "sparce_array.h"
+#include "sparse_array.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -24,14 +24,14 @@ static ssize_t cmp_pair_by_index(const void *const value, const void *const elem
 static ssize_t cmp_index_with_pair(const void *const value, const void *const element, void *const param);
 
 static size_t calc_aligned_size(const size_t size, const size_t alignment);
-static srr_header_t *get_srr_header(const sparce_array_t *const array);
+static srr_header_t *get_srr_header(const sparse_array_t *const array);
 
 
 /*                           ***
 * ===  API Implementation  === *
 ***                           */
 
-void srr_create_(sparce_array_t **const array, const srr_opts_t *const opts)
+void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts)
 {
     dynarr_create(*array,
         .element_size = sizeof(size_t) + calc_aligned_size(opts->element_size, ALIGNMENT),
@@ -48,14 +48,14 @@ void srr_create_(sparce_array_t **const array, const srr_opts_t *const opts)
 }
 
 
-void srr_destroy(sparce_array_t *const array)
+void srr_destroy(sparse_array_t *const array)
 {
     assert(array);
     dynarr_destroy(array);
 }
 
 
-size_t srr_fullsize(const sparce_array_t *const array)
+size_t srr_fullsize(const sparse_array_t *const array)
 {
     assert(array);
     if (dynarr_size(array) == 0) return 0;
@@ -64,25 +64,25 @@ size_t srr_fullsize(const sparce_array_t *const array)
 }
 
 
-size_t srr_realsize(const sparce_array_t *const array)
+size_t srr_realsize(const sparse_array_t *const array)
 {
     return dynarr_size(array);
 }
 
 
-size_t srr_element_size(const sparce_array_t *const array)
+size_t srr_element_size(const sparse_array_t *const array)
 {
     return get_srr_header(array)->element_size;
 }
 
 
-bool srr_is_null(const sparce_array_t *const array, const size_t index)
+bool srr_is_null(const sparse_array_t *const array, const size_t index)
 {
     return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
 }
 
 
-bool srr_insert(sparce_array_t **const array, const size_t index, const void *const value)
+bool srr_insert(sparse_array_t **const array, const size_t index, const void *const value)
 {
     assert(array && *array);
     assert(value);
@@ -107,7 +107,7 @@ bool srr_insert(sparce_array_t **const array, const size_t index, const void *co
 }
 
 
-void sparce_array_print(const sparce_array_t *const array, printer_t printer)
+void sparse_array_print(const sparse_array_t *const array, printer_t printer)
 {
     const size_t size = srr_fullsize(array);
     for (size_t i = 0; i < size; ++i)
@@ -123,7 +123,7 @@ void sparce_array_print(const sparce_array_t *const array, printer_t printer)
 }
 
 
-void* srr_get(const sparce_array_t *const array, const size_t index)
+void* srr_get(const sparse_array_t *const array, const size_t index)
 {
     pair_t *p = (pair_t *)vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
     if (!p) return NULL;
@@ -135,7 +135,7 @@ void* srr_get(const sparce_array_t *const array, const size_t index)
 * ===  Static Functions  === *
 ***                         */
 
-static srr_header_t *get_srr_header(const sparce_array_t *const array)
+static srr_header_t *get_srr_header(const sparse_array_t *const array)
 {
     return dynarr_get_ext_header(array);
 }

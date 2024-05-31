@@ -1,8 +1,8 @@
-#include "../src/sparce_array.h"
+#include "../src/sparse_array.h"
 #include <check.h>
 #include <stdlib.h>
 
-static sparce_array_t *arr;
+static sparse_array_t *arr;
 
 static void setup_empty(void)
 {
