@@ -66,18 +66,21 @@ size_t srr_fullsize(const sparse_array_t *const array)
 
 size_t srr_realsize(const sparse_array_t *const array)
 {
+    assert(array);
     return dynarr_size(array);
 }
 
 
 size_t srr_element_size(const sparse_array_t *const array)
 {
+    assert(array);
     return get_srr_header(array)->element_size;
 }
 
 
 bool srr_is_null(const sparse_array_t *const array, const size_t index)
 {
+    assert(array);
     return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
 }
 
@@ -109,6 +112,7 @@ bool srr_insert(sparse_array_t **const array, const size_t index, const void *co
 
 void sparse_array_print(const sparse_array_t *const array, printer_t printer)
 {
+    assert(array);
     const size_t size = srr_fullsize(array);
     for (size_t i = 0; i < size; ++i)
     {
@@ -125,6 +129,7 @@ void sparse_array_print(const sparse_array_t *const array, printer_t printer)
 
 void* srr_get(const sparse_array_t *const array, const size_t index)
 {
+    assert(array);
     pair_t *p = (pair_t *)vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
     if (!p) return NULL;
     return p->value;

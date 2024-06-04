@@ -14,6 +14,7 @@ typedef struct
     float grow_factor;
     float grow_threshold;
     float shrink_threshold;
+    vector_error_handler_t error_handler;
 }
 srr_opts_t;
 
@@ -32,23 +33,24 @@ pair_t;
 
 typedef void (*printer_t) (const void *element);
 
-#define PAIR_SIZE(type) sizeof(struct {size_t i; type v;})
-
 #define srr_create(srr_ptr, ...) {\
     _Pragma("GCC diagnostic push") \
     _Pragma("GCC diagnostic ignored \"-Woverride-init\"") \
     srr_create_(&srr_ptr, \
         &(srr_opts_t){ \
-            .element_size = sizeof(int), \
-            .initial_cap = 10, \
-            .grow_factor = 2.f, \
-            .grow_threshold = 0.75f, \
-            .shrink_threshold = 0.35f, \
+            DYNARR_DEFAULT_ARGS, \
             __VA_ARGS__ \
         } \
     ); \
     _Pragma("GCC diagnostic pop") \
 }
+
+#define ssr_create_manual_errhdl(srr_ptr, error_out, ...) \
+    ssr_create(srr_ptr, \
+        .error_handler = DYNARR_MANUAL_ERROR_HANDLER(error_out), \
+        __VA_ARGS__ \
+    )
+
 
 void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts);
 
