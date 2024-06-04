@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <assert.h>
 
+typedef struct
+{
+    size_t index;
+    char value[];
+}
+pair_t;
 
 /*                            ***
 * ===  Forward Declarations === *
@@ -16,6 +22,7 @@
 */
 static ssize_t cmp_pair_by_index(const void *const value, const void *const element, void *const param);
 
+
 /*
 * Used for binary search of the pair by providen index
 *   value   -> size_t *index
@@ -23,7 +30,16 @@ static ssize_t cmp_pair_by_index(const void *const value, const void *const elem
 */
 static ssize_t cmp_index_with_pair(const void *const value, const void *const element, void *const param);
 
+
+/*
+* Function calculates size of the element while respecting requirement for alignment.
+*/
 static size_t calc_aligned_size(const size_t size, const size_t alignment);
+
+
+/*
+* Access header allocated in underlying storage layer.
+*/
 static srr_header_t *get_srr_header(const sparse_array_t *const array);
 
 
@@ -33,13 +49,17 @@ static srr_header_t *get_srr_header(const sparse_array_t *const array);
 
 void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts)
 {
+    assert(opts);
+
     dynarr_create(*array,
         .element_size = sizeof(size_t) + calc_aligned_size(opts->element_size, ALIGNMENT),
         .data_offset = sizeof(srr_header_t),
         .grow_factor = opts->grow_factor,
         .grow_threshold = opts->grow_threshold,
         .shrink_threshold = opts->shrink_threshold
-        );
+    );
+
+    if (!*array) return;
 
     srr_header_t *ext_header = (srr_header_t*)dynarr_get_ext_header(*array);
     *ext_header = (srr_header_t) {
@@ -52,6 +72,13 @@ void srr_destroy(sparse_array_t *const array)
 {
     assert(array);
     dynarr_destroy(array);
+}
+
+
+size_t srr_element_size(const sparse_array_t *const array)
+{
+    assert(array);
+    return get_srr_header(array)->element_size;
 }
 
 
@@ -68,20 +95,6 @@ size_t srr_realsize(const sparse_array_t *const array)
 {
     assert(array);
     return dynarr_size(array);
-}
-
-
-size_t srr_element_size(const sparse_array_t *const array)
-{
-    assert(array);
-    return get_srr_header(array)->element_size;
-}
-
-
-bool srr_is_null(const sparse_array_t *const array, const size_t index)
-{
-    assert(array);
-    return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
 }
 
 
@@ -110,9 +123,18 @@ bool srr_insert(sparse_array_t **const array, const size_t index, const void *co
 }
 
 
-void sparse_array_print(const sparse_array_t *const array, printer_t printer)
+bool srr_is_null(const sparse_array_t *const array, const size_t index)
 {
     assert(array);
+    return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
+}
+
+
+void srr_print(const sparse_array_t *const array, const printer_t printer)
+{
+    assert(array);
+    assert(printer);
+
     const size_t size = srr_fullsize(array);
     for (size_t i = 0; i < size; ++i)
     {
@@ -160,16 +182,7 @@ static ssize_t cmp_index_with_pair(const void *const value, const void *const el
 }
 
 
-/*
-* Function calculates size of the element while respecting requirement for alignment.
-*/
 static size_t calc_aligned_size(const size_t size, const size_t alignment)
 {
     return (size + alignment - 1) / alignment * alignment;
-}
-
-
-static void print_int(const void *element)
-{
-    printf("%d", *(int*)element);
 }

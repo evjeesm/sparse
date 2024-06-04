@@ -24,15 +24,14 @@ typedef struct
 }
 srr_header_t;
 
-typedef struct
-{
-    size_t index;
-    char value[];
-}
-pair_t;
+/*
+* Callbacks: 
+*/
+typedef void (*printer_t) (const void *const element);
 
-typedef void (*printer_t) (const void *element);
-
+/*
+* Create wrappers:
+*/
 #define srr_create(srr_ptr, ...) {\
     _Pragma("GCC diagnostic push") \
     _Pragma("GCC diagnostic ignored \"-Woverride-init\"") \
@@ -51,23 +50,62 @@ typedef void (*printer_t) (const void *element);
         __VA_ARGS__ \
     )
 
-
+/*
+* Allocate new sparce array with provided options.
+*/
 void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts);
 
+
+/*
+* Frees sparce array resources.
+*/
 void srr_destroy(sparse_array_t *const array);
 
+
+/*
+* Access element size property.
+*/
 size_t srr_element_size(const sparse_array_t *const array);
 
-bool srr_insert(sparse_array_t **const array, const size_t index, const void *const value);
 
+/*
+* Distance from the begining of the array to the last stored index + 1.
+* a.k.a size including empty elements.
+*/
 size_t srr_fullsize(const sparse_array_t *const array);
 
+
+/*
+* Actual amount of stored elements. (excluding empty ones)
+*/
 size_t srr_realsize(const sparse_array_t *const array);
 
+
+/*
+* Inserts new element into an array,
+* will not override already stored element at provided index
+* (in which case returns false)
+*/
+bool srr_insert(sparse_array_t **const array, const size_t index, const void *const value);
+
+
+/*
+* Returns stored element's value address.
+*/
+void *srr_get(const sparse_array_t *array, const size_t index);
+
+
+/*
+* Checks wherether element stored at given index or not.
+* Elements at indecies that exceed array bounds considered to be null as well.
+*/
 bool srr_is_null(const sparse_array_t *const array, const size_t index);
 
+
+/*
+* Print contents of the array.
+*/
 void srr_print(const sparse_array_t *array, printer_t printer);
 
-void *srr_get(const sparse_array_t *array, size_t index);
 
 #endif/*_SRR_H_*/
