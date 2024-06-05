@@ -1,11 +1,11 @@
-#ifndef _SRR_H_
-#define _SRR_H_
+#ifndef _SPARSE_H_
+#define _SPARSE_H_
 
 #include "dynarr.h"
 
 #define ALIGNMENT sizeof(size_t)
 
-typedef dynarr_t sparse_array_t;
+typedef dynarr_t sparse_t;
 
 typedef struct
 {
@@ -17,13 +17,13 @@ typedef struct
     vector_error_callback_t error_callback;
     vector_error_t *error_out;
 }
-srr_opts_t;
+sparse_opts_t;
 
 typedef struct
 {
     size_t element_size;
 }
-srr_header_t;
+sparse_header_t;
 
 /*
 * Callbacks: 
@@ -33,11 +33,11 @@ typedef void (*printer_t) (const void *const element);
 /*
 * Create wrappers:
 */
-#define srr_create(srr_ptr, ...) {\
+#define sparse_create(sparse_ptr, ...) {\
     _Pragma("GCC diagnostic push") \
     _Pragma("GCC diagnostic ignored \"-Woverride-init\"") \
-    srr_create_(&srr_ptr, \
-        &(srr_opts_t){ \
+    sparse_create_(&sparse_ptr, \
+        &(sparse_opts_t){ \
             DYNARR_DEFAULT_ARGS, \
             __VA_ARGS__ \
         } \
@@ -45,9 +45,9 @@ typedef void (*printer_t) (const void *const element);
     _Pragma("GCC diagnostic pop") \
 }
 
-#define ssr_create_manual_errhdl(srr_ptr, error_out, ...) do {\
+#define ssr_create_manual_errhdl(sparse_ptr, error_out, ...) do {\
     *error_out = DYNARR_NO_ERROR; \
-    ssr_create(srr_ptr, \
+    ssr_create(sparse_ptr, \
         .error_callback = dynarr_manual_error_callback, \
         __VA_ARGS__ \
     )\
@@ -56,32 +56,32 @@ typedef void (*printer_t) (const void *const element);
 /*
 * Allocate new sparce array with provided options.
 */
-void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts);
+void sparse_create_(sparse_t **const array, const sparse_opts_t *const opts);
 
 
 /*
 * Frees sparce array resources.
 */
-void srr_destroy(sparse_array_t *const array);
+void sparse_destroy(sparse_t *const array);
 
 
 /*
 * Access element size property.
 */
-size_t srr_element_size(const sparse_array_t *const array);
+size_t sparse_element_size(const sparse_t *const array);
 
 
 /*
 * Distance from the begining of the array to the last stored index + 1.
 * a.k.a size including empty elements.
 */
-size_t srr_fullsize(const sparse_array_t *const array);
+size_t sparse_fullsize(const sparse_t *const array);
 
 
 /*
 * Actual amount of stored elements. (excluding empty ones)
 */
-size_t srr_realsize(const sparse_array_t *const array);
+size_t sparse_realsize(const sparse_t *const array);
 
 
 /*
@@ -89,26 +89,26 @@ size_t srr_realsize(const sparse_array_t *const array);
 * will not override already stored element at provided index
 * (in which case returns false)
 */
-bool srr_insert(sparse_array_t **const array, const size_t index, const void *const value);
+bool sparse_insert(sparse_t **const array, const size_t index, const void *const value);
 
 
 /*
 * Returns stored element's value address.
 */
-void *srr_get(const sparse_array_t *array, const size_t index);
+void *sparse_get(const sparse_t *array, const size_t index);
 
 
 /*
 * Checks wherether element stored at given index or not.
 * Elements at indecies that exceed array bounds considered to be null as well.
 */
-bool srr_is_null(const sparse_array_t *const array, const size_t index);
+bool sparse_is_null(const sparse_t *const array, const size_t index);
 
 
 /*
 * Print contents of the array.
 */
-void srr_print(const sparse_array_t *array, printer_t printer);
+void sparse_print(const sparse_t *array, printer_t printer);
 
 
-#endif/*_SRR_H_*/
+#endif/*_SPARSE_H_*/

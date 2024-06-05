@@ -40,20 +40,20 @@ static size_t calc_aligned_size(const size_t size, const size_t alignment);
 /*
 * Access header allocated in underlying storage layer.
 */
-static srr_header_t *get_srr_header(const sparse_array_t *const array);
+static sparse_header_t *get_sparse_header(const sparse_t *const array);
 
 
 /*                           ***
 * ===  API Implementation  === *
 ***                           */
 
-void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts)
+void sparse_create_(sparse_t **const array, const sparse_opts_t *const opts)
 {
     assert(opts);
 
     dynarr_create(*array,
         .element_size = sizeof(size_t) + calc_aligned_size(opts->element_size, ALIGNMENT),
-        .data_offset = sizeof(srr_header_t),
+        .data_offset = sizeof(sparse_header_t),
         .grow_factor = opts->grow_factor,
         .grow_threshold = opts->grow_threshold,
         .shrink_threshold = opts->shrink_threshold
@@ -61,28 +61,28 @@ void srr_create_(sparse_array_t **const array, const srr_opts_t *const opts)
 
     if (!*array) return;
 
-    srr_header_t *ext_header = (srr_header_t*)dynarr_get_ext_header(*array);
-    *ext_header = (srr_header_t) {
+    sparse_header_t *ext_header = (sparse_header_t*)dynarr_get_ext_header(*array);
+    *ext_header = (sparse_header_t) {
         .element_size = opts->element_size
     };
 }
 
 
-void srr_destroy(sparse_array_t *const array)
+void sparse_destroy(sparse_t *const array)
 {
     assert(array);
     dynarr_destroy(array);
 }
 
 
-size_t srr_element_size(const sparse_array_t *const array)
+size_t sparse_element_size(const sparse_t *const array)
 {
     assert(array);
-    return get_srr_header(array)->element_size;
+    return get_sparse_header(array)->element_size;
 }
 
 
-size_t srr_fullsize(const sparse_array_t *const array)
+size_t sparse_fullsize(const sparse_t *const array)
 {
     assert(array);
     if (dynarr_size(array) == 0) return 0;
@@ -91,14 +91,14 @@ size_t srr_fullsize(const sparse_array_t *const array)
 }
 
 
-size_t srr_realsize(const sparse_array_t *const array)
+size_t sparse_realsize(const sparse_t *const array)
 {
     assert(array);
     return dynarr_size(array);
 }
 
 
-bool srr_insert(sparse_array_t **const array, const size_t index, const void *const value)
+bool sparse_insert(sparse_t **const array, const size_t index, const void *const value)
 {
     assert(array && *array);
     assert(value);
@@ -117,28 +117,28 @@ bool srr_insert(sparse_array_t **const array, const size_t index, const void *co
 
     pair_t *pair = dynarr_get(*array, place);
     pair->index = index;
-    memcpy(pair->value, value, srr_element_size(*array));
+    memcpy(pair->value, value, sparse_element_size(*array));
 
     return true;
 }
 
 
-bool srr_is_null(const sparse_array_t *const array, const size_t index)
+bool sparse_is_null(const sparse_t *const array, const size_t index)
 {
     assert(array);
     return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
 }
 
 
-void srr_print(const sparse_array_t *const array, const printer_t printer)
+void sparse_print(const sparse_t *const array, const printer_t printer)
 {
     assert(array);
     assert(printer);
 
-    const size_t size = srr_fullsize(array);
+    const size_t size = sparse_fullsize(array);
     for (size_t i = 0; i < size; ++i)
     {
-        pair_t *pair = (pair_t *)srr_get(array, i);
+        pair_t *pair = (pair_t *)sparse_get(array, i);
         if (pair)
         {
             printf("[%zu:", pair->index);
@@ -149,7 +149,7 @@ void srr_print(const sparse_array_t *const array, const printer_t printer)
 }
 
 
-void* srr_get(const sparse_array_t *const array, const size_t index)
+void* sparse_get(const sparse_t *const array, const size_t index)
 {
     assert(array);
     pair_t *p = (pair_t *)vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
@@ -162,7 +162,7 @@ void* srr_get(const sparse_array_t *const array, const size_t index)
 * ===  Static Functions  === *
 ***                         */
 
-static srr_header_t *get_srr_header(const sparse_array_t *const array)
+static sparse_header_t *get_sparse_header(const sparse_t *const array)
 {
     return dynarr_get_ext_header(array);
 }
