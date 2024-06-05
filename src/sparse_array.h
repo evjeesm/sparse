@@ -14,7 +14,8 @@ typedef struct
     float grow_factor;
     float grow_threshold;
     float shrink_threshold;
-    vector_error_handler_t error_handler;
+    vector_error_callback_t error_callback;
+    vector_error_t *error_out;
 }
 srr_opts_t;
 
@@ -44,11 +45,13 @@ typedef void (*printer_t) (const void *const element);
     _Pragma("GCC diagnostic pop") \
 }
 
-#define ssr_create_manual_errhdl(srr_ptr, error_out, ...) \
+#define ssr_create_manual_errhdl(srr_ptr, error_out, ...) do {\
+    *error_out = DYNARR_NO_ERROR; \
     ssr_create(srr_ptr, \
-        .error_handler = DYNARR_MANUAL_ERROR_HANDLER(error_out), \
+        .error_callback = dynarr_manual_error_callback, \
         __VA_ARGS__ \
-    )
+    )\
+} while(0)
 
 /*
 * Allocate new sparce array with provided options.
