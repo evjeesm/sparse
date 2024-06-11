@@ -47,11 +47,11 @@ static sparse_header_t *get_sparse_header(const sparse_t *const array);
 * ===  API Implementation  === *
 ***                           */
 
-void sparse_create_(sparse_t **const array, const sparse_opts_t *const opts)
+sparse_t *sparse_create_(const sparse_opts_t *const opts)
 {
     assert(opts);
 
-    dynarr_create(*array,
+    sparse_t *array = dynarr_create(
         .element_size = sizeof(size_t) + calc_aligned_size(opts->element_size, ALIGNMENT),
         .data_offset = sizeof(sparse_header_t),
         .grow_factor = opts->grow_factor,
@@ -59,12 +59,21 @@ void sparse_create_(sparse_t **const array, const sparse_opts_t *const opts)
         .shrink_threshold = opts->shrink_threshold
     );
 
-    if (!*array) return;
+    if (!array) return NULL;
 
-    sparse_header_t *ext_header = (sparse_header_t*)dynarr_get_ext_header(*array);
+    sparse_header_t *ext_header = (sparse_header_t*)dynarr_get_ext_header(array);
     *ext_header = (sparse_header_t) {
         .element_size = opts->element_size
     };
+
+    return array;
+}
+
+
+sparse_t *sparce_clone(const sparse_t *const array)
+{
+    assert(array);
+    return dynarr_clone(array);
 }
 
 
@@ -98,7 +107,7 @@ size_t sparse_realsize(const sparse_t *const array)
 }
 
 
-bool sparse_insert(sparse_t **const array, const size_t index, const void *const value)
+sparse_status_t sparse_insert(sparse_t **const array, const size_t index, const void *const value)
 {
     assert(array && *array);
     assert(value);
@@ -106,20 +115,18 @@ bool sparse_insert(sparse_t **const array, const size_t index, const void *const
     /* element for given index already exists */
     if (vector_binary_find(*array, &index, dynarr_size(*array), cmp_index_with_pair, NULL))
     {
-        return false;
+        return SPARSE_INSERT_INDEX_OVERRIDE;
     }
 
     size_t place;
-    if (!dynarr_binary_reserve(array, &index, cmp_index_with_pair, NULL, &place))
-    {
-        return false;
-    }
+    dynarr_status_t status = dynarr_binary_reserve(array, &index, cmp_index_with_pair, NULL, &place);
+    if (DYNARR_SUCCESS != status) return (sparse_status_t)status;
 
     pair_t *pair = dynarr_get(*array, place);
     pair->index = index;
     memcpy(pair->value, value, sparse_element_size(*array));
 
-    return true;
+    return SPARSE_SUCCESS;
 }
 
 

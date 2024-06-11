@@ -14,8 +14,6 @@ typedef struct
     float grow_factor;
     float grow_threshold;
     float shrink_threshold;
-    vector_error_callback_t error_callback;
-    vector_error_t *error_out;
 }
 sparse_opts_t;
 
@@ -25,38 +23,40 @@ typedef struct
 }
 sparse_header_t;
 
+typedef enum sparse_status_t
+{
+    SPARSE_SUCCESS = DYNARR_SUCCESS,
+    SPARSE_INSERT_INDEX_OVERRIDE = DYNARR_STATUS_LAST
+}
+sparse_status_t;
+
 /*
-* Callbacks: 
+* Callbacks:
 */
 typedef void (*printer_t) (const void *const element);
 
 /*
 * Create wrappers:
 */
-#define sparse_create(sparse_ptr, ...) {\
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Woverride-init\"") \
-    sparse_create_(&sparse_ptr, \
+#define sparse_create(...) \
+    sparse_create_( \
         &(sparse_opts_t){ \
             DYNARR_DEFAULT_ARGS, \
             __VA_ARGS__ \
         } \
-    ); \
-    _Pragma("GCC diagnostic pop") \
-}
+    )
 
-#define ssr_create_manual_errhdl(sparse_ptr, error_out, ...) do {\
-    *error_out = DYNARR_NO_ERROR; \
-    ssr_create(sparse_ptr, \
-        .error_callback = dynarr_manual_error_callback, \
-        __VA_ARGS__ \
-    )\
-} while(0)
 
 /*
 * Allocate new sparce array with provided options.
 */
-void sparse_create_(sparse_t **const array, const sparse_opts_t *const opts);
+sparse_t *sparse_create_(const sparse_opts_t *const opts);
+
+
+/*
+* Duplicates sparse array.
+*/
+sparse_t *sparce_clone(const sparse_t *const array);
 
 
 /*
@@ -87,9 +87,9 @@ size_t sparse_realsize(const sparse_t *const array);
 /*
 * Inserts new element into an array,
 * will not override already stored element at provided index
-* (in which case returns false)
+* (in which case returns SPARSE_INSERT_INDEX_OVERRIDE)
 */
-bool sparse_insert(sparse_t **const array, const size_t index, const void *const value);
+sparse_status_t sparse_insert(sparse_t **const array, const size_t index, const void *const value);
 
 
 /*

@@ -1,4 +1,4 @@
 CompileFlags:
-  Add: [-std=c17, -xc, -Wall, -Wextra, -Isrc, -I../dynarr/src, -I../dynarr/vector/src]
+  Add: [-std=c17, -xc, -Wall, -Wextra, -Isrc, -I../dynarr/src, -I../dynarr/vector/src, -Wno-initializer-overrides]
   Compiler: cc
 ---
