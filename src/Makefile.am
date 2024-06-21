@@ -6,11 +6,9 @@ libsparse_array_funcs_la_CFLAGS = -I../dynarr/src/ -I../dynarr/vector/src/
 libsparse_array_funcs_la_LDFLAGS = -L../dynarr/src/.libs/ -L../dynarr/vector/src/.libs/
 
 libsparse_array_la_SOURCES =
-libsparse_array_la_LDFLAGS = -shared -ldynarr -lvector
-libsparse_array_la_CFLAGS =
-libsparse_array_la_LIBADD = libsparse_array_funcs.la ../dynarr/src/libdynarr.la ../dynarr/vector/src/libvector.la
+libsparse_array_la_LDFLAGS = -shared
+libsparse_array_la_LIBADD = libsparse_array_funcs.la ../dynarr/src/libdynarr.la
 
 libsparse_array_static_la_SOURCES =
-libsparse_array_static_la_LDFLAGS = -static @libsparse_array_funcs_la_LDFLAGS@ -ldynarr_static -lvector_static
-libsparse_array_static_la_CFLAGS =
-libsparse_array_static_la_LIBADD = libsparse_array_funcs.la
+libsparse_array_static_la_LDFLAGS = -static
+libsparse_array_static_la_LIBADD = libsparse_array_funcs.la ../dynarr/src/libdynarr_static.la
