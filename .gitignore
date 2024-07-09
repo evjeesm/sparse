@@ -1,5 +1,12 @@
 *
 
+# submodules
+!.gitmodules
+!dynarr
+
+!build-aux
+!build-aux/**
+!m4
 
 !src/
 !tests/
@@ -7,6 +14,10 @@
 !*.h
 !*.am
 !*.ac
+!*.m4
+!*.in
+!configure
+!stamp-h1
 
 !.gitignore
 !.clangd
