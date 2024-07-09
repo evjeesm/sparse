@@ -1,0 +1,4 @@
+[submodule "dynarr"]
+	path = dynarr
+	url = git@github.com:evjeesm/dynarr
+	branch = main
