@@ -1,0 +1,49 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install autoconf-archive
+      run: sudo apt-get install autoconf-archive
+
+    - name: Install valgrind
+      run: sudo apt-get install valgrind
+
+    - name: Install check
+      run: sudo apt-get install check
+
+    - name: Pull & update submodules recursively
+      run: |
+        git submodule update --init --recursive
+        git submodule update --recursive --remote
+
+    # - name: autogen
+    #   run: ./autogen.sh
+    
+    - name: configure
+      run: ./configure CFLAGS='-Wall -Wextra -Wno-override-init -O2'
+
+    - name: Install dependencies
+      run: make
+
+    - name: Run check
+      run: make check
+
+    - name: Run valgrind check
+      run: make check-valgrind
+
+    - name: Run distcheck
+      run: make distcheck
