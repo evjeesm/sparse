@@ -1,4 +1,5 @@
 #include "sparse_array.h"
+#include "vector.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -20,7 +21,7 @@ pair_t;
 *   value   -> pair_t *pair_to_insert
 *   element -> pair_t *pair_in_the_arraytor
 */
-static ssize_t cmp_pair_by_index(const void *const value, const void *const element, void *const param);
+static ssize_t cmp_pairs_by_index(const void *const value, const void *const element, void *const param);
 
 
 /*
@@ -28,7 +29,7 @@ static ssize_t cmp_pair_by_index(const void *const value, const void *const elem
 *   value   -> size_t *index
 *   element -> pair_t *pair
 */
-static ssize_t cmp_index_with_pair(const void *const value, const void *const element, void *const param);
+static ssize_t cmp_index_to_pair(const void *const value, const void *const element, void *const param);
 
 
 /*
@@ -45,8 +46,13 @@ sparse_t *sparse_create_(const sparse_opts_t *const opts)
 {
     assert(opts);
 
+    /* dynarr's `element_size` is the real size
+       of an allocation per element,
+       so we need to introduce separate property getter
+       for sparse array */
     sparse_t *array = dynarr_create(
         .element_size = sizeof(size_t) + calc_aligned_size(opts->element_size, ALIGNMENT),
+        .initial_cap = opts->initial_cap,
         .data_offset = sizeof(sparse_header_t),
         .grow_factor = opts->grow_factor,
         .grow_threshold = opts->grow_threshold,
@@ -64,7 +70,7 @@ sparse_t *sparse_create_(const sparse_opts_t *const opts)
 }
 
 
-sparse_t *sparce_clone(const sparse_t *const array)
+sparse_t *sparse_clone(const sparse_t *const array)
 {
     assert(array);
     return dynarr_clone(array);
@@ -85,7 +91,7 @@ size_t sparse_element_size(const sparse_t *const array)
 }
 
 
-size_t sparse_fullsize(const sparse_t *const array)
+size_t sparse_range(const sparse_t *const array)
 {
     assert(array);
     if (dynarr_size(array) == 0) return 0;
@@ -94,7 +100,7 @@ size_t sparse_fullsize(const sparse_t *const array)
 }
 
 
-size_t sparse_realsize(const sparse_t *const array)
+size_t sparse_size(const sparse_t *const array)
 {
     assert(array);
     return dynarr_size(array);
@@ -107,13 +113,13 @@ sparse_status_t sparse_insert(sparse_t **const array, const size_t index, const 
     assert(value);
 
     /* element for given index already exists */
-    if (vector_binary_find(*array, &index, dynarr_size(*array), cmp_index_with_pair, NULL))
+    if (vector_binary_find(*array, &index, dynarr_size(*array), cmp_index_to_pair, NULL))
     {
         return SPARSE_INSERT_INDEX_OVERRIDE;
     }
 
     size_t place;
-    dynarr_status_t status = dynarr_binary_reserve(array, &index, cmp_index_with_pair, NULL, &place);
+    dynarr_status_t status = dynarr_binary_reserve(array, &index, cmp_index_to_pair, NULL, &place);
     if (DYNARR_SUCCESS != status) return (sparse_status_t)status;
 
     pair_t *pair = dynarr_get(*array, place);
@@ -124,38 +130,40 @@ sparse_status_t sparse_insert(sparse_t **const array, const size_t index, const 
 }
 
 
-bool sparse_is_null(const sparse_t *const array, const size_t index)
+sparse_status_t sparse_insert_reserve(sparse_t **const array, const size_t index)
 {
-    assert(array);
-    return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
-}
+    assert(array && *array);
 
-
-void sparse_print(const sparse_t *const array, const printer_t printer)
-{
-    assert(array);
-    assert(printer);
-
-    const size_t size = sparse_fullsize(array);
-    for (size_t i = 0; i < size; ++i)
+    /* element for given index already exists */
+    if (vector_binary_find(*array, &index, dynarr_size(*array), cmp_index_to_pair, NULL))
     {
-        pair_t *pair = (pair_t *)sparse_get(array, i);
-        if (pair)
-        {
-            printf("[%zu:", pair->index);
-            printer(pair->value);
-            printf("], ");
-        }
+        return SPARSE_INSERT_INDEX_OVERRIDE;
     }
+
+    size_t place;
+    dynarr_status_t status = dynarr_binary_reserve(array, &index, cmp_index_to_pair, NULL, &place);
+    if (DYNARR_SUCCESS != status) return (sparse_status_t)status;
+
+    pair_t *pair = dynarr_get(*array, place);
+    pair->index = index;
+
+    return SPARSE_SUCCESS;
 }
 
 
 void* sparse_get(const sparse_t *const array, const size_t index)
 {
     assert(array);
-    pair_t *p = (pair_t *)vector_binary_find(array, &index, dynarr_size(array), cmp_index_with_pair, NULL);
+    pair_t *p = (pair_t *)vector_binary_find(array, &index, dynarr_size(array), cmp_index_to_pair, NULL);
     if (!p) return NULL;
     return p->value;
+}
+
+
+bool sparse_is_empty_element(const sparse_t *const array, const size_t index)
+{
+    assert(array);
+    return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_to_pair, NULL);
 }
 
 
@@ -169,14 +177,14 @@ static sparse_header_t *get_sparse_header(const sparse_t *const array)
 }
 
 
-static ssize_t cmp_pair_by_index(const void *const value, const void *const element, void *const param)
+static ssize_t cmp_pairs_by_index(const void *const value, const void *const element, void *const param)
 {
     (void)param;
     return (ssize_t) ((const pair_t *)value)->index - ((const pair_t *)element)->index;
 }
 
 
-static ssize_t cmp_index_with_pair(const void *const value, const void *const element, void *const param)
+static ssize_t cmp_index_to_pair(const void *const value, const void *const element, void *const param)
 {
     (void)param;
     return (ssize_t)*(size_t*) value - ((const pair_t *) element)->index;
