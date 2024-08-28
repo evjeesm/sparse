@@ -5,6 +5,7 @@
 !dynarr
 
 !tests
+!src
 !*.c
 !*.h
 !*.am
