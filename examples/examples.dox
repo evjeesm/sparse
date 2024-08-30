@@ -1,0 +1,73 @@
+/**
+@page Guide 📘 Guide
+@tableofcontents
+
+@section create 🔨 Creating Sparse Array
+In this section we'll discuss creation of the sparse array. @n
+
+Based on @ref create.c "Example file".
+
+
+@subsection def_create ⚙️ With default options
+           A standard way to create @c dynarr_t is to call a macro wrapper
+           @ref dynarr_create, it passes default option values, so you
+           dont have to provide them yourself.
+
+@n
+
+@subsection custom_opts ⚙️ With custom options
+
+@n
+
+@subsection wthout_macro_wrapper ⚙️ Without macro wrapper
+            You can avoid macro wrapper with default values
+            if you know what you are doing. @n
+
+@n
+
+@subsection extended_header ⚙️ Allocate extended header
+
+@n
+
+@subsection cloning ⿻ Clone an existing array
+
+@n
+
+@subsection handle_alloc_error ❌ Error handling
+
+@n
+
+@subsection deallocate 🧨 Deallocating Sparse Array
+            Prevent memory leaks by deallocation resources, when they not needed anymore!
+@n
+
+
+===
+
+@section sparse_extend ⬆️ Extending Sparse Array
+
+@par Follow same guidelines as for the Vector
+<a href="https://evjeesm.github.io/vector/Guide.html#extend">Extending a vector</a>
+
+
+*/
+
+/**
+
+@dir examples
+@brief Collection of usefull examples and demos:
+
+@example create.c
+
+@par Sparse array creation process
+
+@author Evgeni Semenov
+*/
+
+/**
+@example sparse_matrix.c
+
+@par ...
+
+@author Evgeni Semenov
+*/
