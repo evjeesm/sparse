@@ -1,4 +1,4 @@
-#include "sparse_array.h"
+#include "sparse.h"
 #include "dynarr.h"
 #include "vector.h"
 
