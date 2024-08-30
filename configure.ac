@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIRS([m4 /usr/share/aclocal])
-AC_INIT([Sparse Array], [0.0.1], [https://github.com/evjeesm])
+AC_INIT([Sparse], [0.0.1], [https://github.com/evjeesm])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_SUBDIRS([dynarr]) # import sub projects
 
@@ -15,7 +15,7 @@ AX_VALGRIND_DFLT([drd], [off])
 AX_VALGRIND_CHECK
 
 # unique source file -- primitive safety check
-AC_CONFIG_SRCDIR([src/sparse_array.c])
+AC_CONFIG_SRCDIR([src/sparse.c])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.11.2])
 

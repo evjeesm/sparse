@@ -2,3 +2,6 @@
 	path = dynarr
 	url = git@github.com:evjeesm/dynarr
 	branch = main
+[submodule "docs/doxygen-awesome-css"]
+	path = docs/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
