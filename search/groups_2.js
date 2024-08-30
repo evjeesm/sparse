@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['elements_0',['Elements',['../group__Elements.html',1,'']]],
-  ['extension_1',['Extension',['../group__Extension.html',1,'']]]
+  ['resize_0',['Auto-resize',['https://evjeesm.github.io/dynarr/group__Auto-resize.html',1,'']]]
 ];

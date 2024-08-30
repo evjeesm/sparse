@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['options_0',['options',['../Guide.html#custom_opts',1,'⚙️ With custom options'],['../Guide.html#def_create',1,'⚙️ With default options']]]
+  ['resize_0',['Auto-resize',['https://evjeesm.github.io/dynarr/group__Auto-resize.html',1,'']]]
 ];

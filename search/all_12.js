@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['❌_20error_20handling_0',['❌ Error handling',['../Guide.html#handle_alloc_error',1,'']]]
+  ['📘_20guide_0',['📘 Guide',['../Guide.html',1,'']]]
 ];

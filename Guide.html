@@ -112,8 +112,7 @@ $(function(){initNavTree('Guide.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#dynarr_extend">⬆️ Extending a dynarr</a></li>
-<li class="level1"><a href="#create">🔨 Creating Sparse Array</a><ul><li class="level2"><a href="#def_create">⚙️ With default options</a></li>
+<ul><li class="level1"><a href="#create">🔨 Creating Sparse Array</a><ul><li class="level2"><a href="#def_create">⚙️ With default options</a></li>
 <li class="level2"><a href="#custom_opts">⚙️ With custom options</a></li>
 <li class="level2"><a href="#wthout_macro_wrapper">⚙️ Without macro wrapper</a></li>
 <li class="level2"><a href="#extended_header">⚙️ Allocate extended header</a></li>
@@ -127,62 +126,11 @@ $(function(){initNavTree('Guide.html',''); initResizable(true); });
 </div>
 <div class="textblock"><h1><a class="anchor" id="create"></a>
 🔨 Creating Sparse Array</h1>
-<p>In this section we'll discuss creation of the dynamic array. <br  />
- Based on <a class="el" href="create_8c-example.html">Example file</a>.</p>
-<h2><a class="anchor" id="def_create"></a>
-⚙️ With default options</h2>
-<p>A standard way to create <code>dynarr_t</code> is to call a macro wrapper <a class="el" href="group__Lifetime.html#ga1d05157f1911b8d089e57ca0696be01f">dynarr_create</a>, it passes default option values, so you dont have to provide them yourself.</p>
- <div class="fragment"></div><!-- fragment --><ul>
-<li><a class="el" href="structdynarr__opts__t.html#a61aa2f610ed5a0202bd558522d04c7d9">element_size</a> is the only mandatory explicit option. </li>
-<li>Full list of default options: <a class="el" href="dynarr_8h.html#a7506aa30c586258bba10244e55492795">DYNARR_DEFAULT_ARGS</a> <br  />
- </li>
-</ul>
-<h2><a class="anchor" id="custom_opts"></a>
-⚙️ With custom options</h2>
-<div class="fragment"></div><!-- fragment --><p><br  />
- </p>
-<h2><a class="anchor" id="wthout_macro_wrapper"></a>
-⚙️ Without macro wrapper</h2>
-<p>You can avoid macro wrapper with default values if you know what you are doing. <br  />
- Just create <a class="el" href="structdynarr__opts__t.html">opts</a> on stack and pass by reference into a <a class="el" href="group__Lifetime.html#ga99f1163f1932f71f0229a7340df68efb">dynarr_create_</a> function directly:  </p><div class="fragment"></div><!-- fragment --><p><br  />
- </p>
-<h2><a class="anchor" id="extended_header"></a>
-⚙️ Allocate extended header</h2>
-<p>This is important for derived classes that need to include their data <br  />
- in a memory allocated by underlying vector.</p>
-<p>Define a structure <code>ext_t</code> that will be peallocated right after <a class="el" href="structdynarr__header__t.html">dynarr_header_t</a> :  </p><div class="fragment"></div><!-- fragment --><p> Create dynarr specifying <a class="el" href="structdynarr__opts__t.html#accd8a3e669a744e366b212579e0566ec">dynarr_opts_t::ext_header_size</a> to reserve space for <code>ext_t</code>. </p><div class="fragment"></div><!-- fragment --><p> Initialize extended header: </p><div class="fragment"></div><!-- fragment --><p><br  />
- </p>
-<h2><a class="anchor" id="cloning"></a>
-⿻ Clone an existing array</h2>
-<p>With <a class="el" href="group__Lifetime.html#ga42427bb2220a4e0bf86a08717719a6a3">dynarr_clone</a> you are able to produce exact copy of an existing array.</p>
-<div class="fragment"></div><!-- fragment --><p><br  />
- </p>
-<h2><a class="anchor" id="handle_alloc_error"></a>
-❌ Error handling</h2>
-<p>Default implementation uses heap as allocation memory source. Depending on system architecture heap allocation is not fail proof, take it into your considerations.</p>
-<p>Check that <code>dynarr</code> value is <code>NULL</code>, then resolve allocation error. If you got none resolution choises, perform gracefull program termination. See following example, print error and exit abnormally.</p>
- <div class="fragment"></div><!-- fragment --><p> <br  />
- Other option is to just use an <code>assert</code>. If allocation error is unlikely to happen, but you still need to indicate if it occures.</p>
-<div class="fragment"></div><!-- fragment --><p> Advantage of asserts if that they can be disabled by providing <code>-DNDEBUG</code> compilation flag.</p>
-<p><br  />
- </p>
-<h2><a class="anchor" id="deallocate"></a>
-🧨 Deallocating Sparse Array</h2>
-<p>Prevent memory leaks by deallocation resources, when they not needed anymore! <br  />
-  </p><div class="fragment"></div><!-- fragment --> <dl class="section attention"><dt>Attention</dt><dd>Always remember to deallocate <code>dynarr</code> created with <a class="el" href="group__Lifetime.html#ga1d05157f1911b8d089e57ca0696be01f">dynarr_create</a> or <a class="el" href="group__Lifetime.html#ga42427bb2220a4e0bf86a08717719a6a3">dynarr_clone</a> !</dd></dl>
-<p><br  />
- </p><hr  />
-<h1><a class="anchor" id="dynarr_extend"></a>
-⬆️ Extending a dynarr</h1>
-<dl class="section user"><dt>Follow same guidelines as for the Vector</dt><dd><a href="https://evjeesm.github.io/vector/Guide.html#extend">Extending a vector</a> <br  />
-</dd></dl>
-<h1><a class="anchor" id="create"></a>
-🔨 Creating Sparse Array</h1>
 <p>In this section we'll discuss creation of the sparse array. <br  />
  Based on <a class="el" href="create_8c-example.html">Example file</a>.</p>
 <h2><a class="anchor" id="def_create"></a>
 ⚙️ With default options</h2>
-<p>A standard way to create <code>dynarr_t</code> is to call a macro wrapper <a class="el" href="group__Lifetime.html#ga1d05157f1911b8d089e57ca0696be01f">dynarr_create</a>, it passes default option values, so you dont have to provide them yourself.</p>
+<p>A standard way to create <code>dynarr_t</code> is to call a macro wrapper <a class="elRef" href="https://evjeesm.github.io/dynarr/group__Dynarr__API.html#ga1d05157f1911b8d089e57ca0696be01f">dynarr_create</a>, it passes default option values, so you dont have to provide them yourself.</p>
 <p><br  />
  </p>
 <h2><a class="anchor" id="custom_opts"></a>

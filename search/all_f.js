@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['usage_0',['Usage',['../index.html#autotoc_md9',1,'']]]
+  ['❌_20error_20handling_0',['❌ Error handling',['../Guide.html#handle_alloc_error',1,'']]]
 ];
