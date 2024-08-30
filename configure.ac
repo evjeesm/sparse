@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIRS([m4 /usr/share/aclocal])
-AC_INIT([SparseArray], [0.1], [https://github.com/JekasObps])
+AC_INIT([Sparse Array], [0.0.1], [https://github.com/evjeesm])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_SUBDIRS([dynarr]) # import sub projects
 

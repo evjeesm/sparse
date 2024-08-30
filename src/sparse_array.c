@@ -1,4 +1,5 @@
 #include "sparse_array.h"
+#include "dynarr.h"
 #include "vector.h"
 
 #include <string.h>
@@ -23,7 +24,6 @@ pair_t;
 */
 static ssize_t cmp_pairs_by_index(const void *const value, const void *const element, void *const param);
 
-
 /*
 * Used for binary search of the pair by providen index
 *   value   -> size_t *index
@@ -31,7 +31,7 @@ static ssize_t cmp_pairs_by_index(const void *const value, const void *const ele
 */
 static ssize_t cmp_index_to_pair(const void *const value, const void *const element, void *const param);
 
-
+static bool match_by_index(const void *const element, void *const index);
 /*
 * Access header allocated in underlying storage layer.
 */
@@ -53,7 +53,7 @@ sparse_t *sparse_create_(const sparse_opts_t *const opts)
     sparse_t *array = dynarr_create(
         .element_size = sizeof(size_t) + calc_aligned_size(opts->element_size, ALIGNMENT),
         .initial_cap = opts->initial_cap,
-        .data_offset = sizeof(sparse_header_t),
+        .ext_header_size = sizeof(sparse_header_t),
         .grow_factor = opts->grow_factor,
         .grow_threshold = opts->grow_threshold,
         .shrink_threshold = opts->shrink_threshold
@@ -150,6 +150,16 @@ sparse_status_t sparse_insert_reserve(sparse_t **const array, const size_t index
     return SPARSE_SUCCESS;
 }
 
+sparse_status_t sparse_remove(sparse_t **const array, const size_t index)
+{
+    assert(array && *array);
+    
+    dynarr_status_t status = dynarr_remove_if(array, match_by_index, 1, (void *const)&index);
+
+    if (DYNARR_SHRINK_ERROR == status) return SPARSE_ALLOC_ERROR;
+    return SPARSE_SUCCESS;
+}
+
 
 void* sparse_get(const sparse_t *const array, const size_t index)
 {
@@ -171,12 +181,6 @@ bool sparse_is_empty_element(const sparse_t *const array, const size_t index)
 * ===  Static Functions  === *
 ***                         */
 
-static sparse_header_t *get_sparse_header(const sparse_t *const array)
-{
-    return dynarr_get_ext_header(array);
-}
-
-
 static ssize_t cmp_pairs_by_index(const void *const value, const void *const element, void *const param)
 {
     (void)param;
@@ -188,4 +192,16 @@ static ssize_t cmp_index_to_pair(const void *const value, const void *const elem
 {
     (void)param;
     return (ssize_t)*(size_t*) value - ((const pair_t *) element)->index;
+}
+
+
+static bool match_by_index(const void *const element, void *const index)
+{
+    return ((pair_t*)element)->index == *(size_t*)index;
+}
+
+
+static sparse_header_t *get_sparse_header(const sparse_t *const array)
+{
+    return dynarr_get_ext_header(array);
 }

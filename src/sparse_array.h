@@ -27,6 +27,7 @@ sparse_header_t;
 typedef enum sparse_status_t
 {
     SPARSE_SUCCESS = DYNARR_SUCCESS,
+    SPARSE_ALLOC_ERROR = DYNARR_ALLOC_ERROR,
     SPARSE_INSERT_INDEX_OVERRIDE = DYNARR_STATUS_LAST
 }
 sparse_status_t;
