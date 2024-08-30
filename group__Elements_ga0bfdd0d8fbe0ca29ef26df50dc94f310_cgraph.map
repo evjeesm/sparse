@@ -1,0 +1,41 @@
+<map id="dynarr_binary_merge" name="dynarr_binary_merge">
+<area shape="rect" id="Node000001" title="Non&#45;destructive merge of two sorted dynarrs." alt="" coords="5,335,167,360"/>
+<area shape="rect" id="Node000002" href="$group__Elements.html#ga1e7f043863514d809cd6446053f6dc47" title="Appends an element to the tail of a dynarr." alt="" coords="215,309,334,335"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,334,201,329,202,334,167,339"/>
+<area shape="rect" id="Node000005" href="$group__Properties.html#gaf5c43e2644d185b9b01065af34ed6e29" title="Access size property of a dynarr." alt="" coords="897,259,994,284"/>
+<area shape="poly" id="edge21_Node000001_Node000005" title=" " alt="" coords="167,354,295,365,441,370,612,370,651,368,683,363,737,345,790,320,859,294,888,285,890,290,861,299,792,325,739,350,685,368,652,373,612,375,441,375,295,370,167,359"/>
+<area shape="rect" id="Node000010" href="$group__Elements.html#ga93c32dd116523090126d427cce08e114" title="Returns pointer for the element at index." alt="" coords="720,56,812,81"/>
+<area shape="poly" id="edge20_Node000001_Node000010" title=" " alt="" coords="103,332,171,285,277,218,408,148,478,117,549,91,630,74,706,67,706,72,631,79,550,97,480,122,410,153,280,223,174,290,106,337"/>
+<area shape="rect" id="Node000011" href="$group__Lifetime.html#ga99f1163f1932f71f0229a7340df68efb" title="Constructor of the dynamic array." alt="" coords="383,5,501,31"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="86,334,94,280,114,202,131,159,152,118,180,80,213,48,249,27,289,15,330,9,368,8,369,14,330,15,290,20,251,32,216,52,184,83,157,121,136,161,120,203,99,281,91,335"/>
+<area shape="rect" id="Node000012" href="$group__Lifetime.html#gaebbaac3879771d77aa20068a26952197" title="Deallocates a dynamic array." alt="" coords="215,461,335,487"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="105,358,153,396,216,440,237,452,235,457,213,444,150,400,101,362"/>
+<area shape="rect" id="Node000013" href="$dynarr_8c.html#a498b4e9fc56a6e87a6c5ca525026a9ed" title=" " alt="" coords="727,460,805,485"/>
+<area shape="poly" id="edge22_Node000001_Node000013" title=" " alt="" coords="120,357,215,389,355,418,495,440,713,466,713,471,494,446,354,423,214,394,118,363"/>
+<area shape="rect" id="Node000003" href="$group__Elements.html#gab449a79e6b33f55af35329df4363336e" title="Inserts new element into a dynarr." alt="" coords="388,208,496,233"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="295,307,407,238,410,243,298,311"/>
+<area shape="poly" id="edge16_Node000002_Node000005" title=" " alt="" coords="334,315,883,273,883,279,334,320"/>
+<area shape="rect" id="Node000004" href="$group__Elements.html#ga30d508a9f387e2227dd0d72a8bfd2a39" title="Sets element at given index to a value." alt="" coords="565,208,656,233"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="496,218,552,218,552,223,496,223"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="486,205,549,193,611,187,672,193,734,204,795,219,898,251,896,257,794,224,733,209,672,198,611,193,550,198,487,211"/>
+<area shape="rect" id="Node000007" href="$group__Auto-resize.html#ga036b69c5b674d3ac22027b04ba235b42" title=" " alt="" coords="739,411,793,436"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="465,231,734,401,732,406,462,236"/>
+<area shape="rect" id="Node000009" href="$group__Auto-resize.html#gadb26f84b95f0ca45c7ccbd72e337485a" title=" " alt="" coords="549,107,672,132"/>
+<area shape="poly" id="edge11_Node000003_Node000009" title=" " alt="" coords="460,206,548,149,570,136,573,141,551,154,463,210"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="657,226,720,237,883,260,883,266,720,242,656,231"/>
+<area shape="rect" id="Node000006" href="$dynarr_8c.html#a73f42f3f25cd0920d8039d63ea31be07" title=" " alt="" coords="1079,309,1223,335"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="995,281,1086,303,1085,309,994,286"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="788,409,810,390,825,365,831,341,839,318,858,295,882,281,885,285,862,299,844,320,837,343,830,367,814,393,791,413"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="793,413,859,395,1086,336,1088,341,861,401,794,419"/>
+<area shape="rect" id="Node000008" href="$group__Properties.html#ga3ff11107726213a640d814b63cb123b2" title="Access current capacity of the dynarr." alt="" coords="882,308,1009,333"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="784,408,810,389,834,369,859,350,889,336,892,341,861,355,837,373,814,393,787,413"/>
+<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="646,130,813,200,911,250,908,254,811,204,644,134"/>
+<area shape="poly" id="edge15_Node000009_Node000006" title=" " alt="" coords="673,128,813,162,925,197,1032,244,1080,271,1122,299,1119,303,1078,276,1029,248,923,202,811,167,671,133"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="650,104,712,83,714,88,651,109"/>
+<area shape="poly" id="edge13_Node000010_Node000005" title=" " alt="" coords="780,80,926,247,922,250,776,83"/>
+<area shape="poly" id="edge18_Node000011_Node000006" title=" " alt="" coords="501,10,567,8,645,10,730,20,813,41,867,64,919,94,967,129,1011,167,1085,240,1133,297,1129,300,1081,243,1008,170,964,133,916,99,865,69,811,46,729,25,645,15,567,13,502,15"/>
+<area shape="poly" id="edge25_Node000013_Node000006" title=" " alt="" coords="806,474,853,477,911,475,971,465,1030,445,1062,424,1091,398,1132,344,1137,348,1095,401,1065,428,1032,450,973,470,911,480,853,482,806,480"/>
+<area shape="rect" id="Node000014" href="$group__Properties.html#ga745bff084f68eec950fa9ea0b42fb4e7" title="Access initial capacity property." alt="" coords="860,409,1031,435"/>
+<area shape="poly" id="edge23_Node000013_Node000014" title=" " alt="" coords="805,459,886,436,887,441,806,464"/>
+<area shape="poly" id="edge24_Node000014_Node000006" title=" " alt="" coords="983,407,1030,388,1117,339,1119,344,1032,392,985,412"/>
+</map>

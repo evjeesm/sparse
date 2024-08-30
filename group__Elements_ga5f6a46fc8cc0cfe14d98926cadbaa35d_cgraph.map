@@ -1,0 +1,13 @@
+<map id="dynarr_binary_find_insert_place" name="dynarr_binary_find_insert_place">
+<area shape="rect" id="Node000001" title="Binary search for binary insert support." alt="" coords="5,59,148,99"/>
+<area shape="rect" id="Node000002" href="$dynarr_8c.html#a187b18732062f4f69486553f37697739" title=" " alt="" coords="196,29,335,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,65,181,60,182,65,149,70"/>
+<area shape="rect" id="Node000004" href="$group__Properties.html#gaf5c43e2644d185b9b01065af34ed6e29" title="Access size property of a dynarr." alt="" coords="523,69,620,94"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="149,78,196,79,509,79,509,84,196,84,148,83"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="234,29,232,20,237,11,248,5,265,3,285,6,295,13,292,17,283,11,265,8,250,10,241,14,238,21,239,28"/>
+<area shape="rect" id="Node000003" href="$group__Elements.html#ga93c32dd116523090126d427cce08e114" title="Returns pointer for the element at index." alt="" coords="383,41,475,66"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="335,48,369,49,369,55,335,54"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="475,60,510,67,509,72,474,65"/>
+<area shape="rect" id="Node000005" href="$dynarr_8c.html#a73f42f3f25cd0920d8039d63ea31be07" title=" " alt="" coords="668,69,812,94"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="620,79,654,79,654,84,620,84"/>
+</map>

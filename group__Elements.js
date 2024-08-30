@@ -1,0 +1,26 @@
+var group__Elements =
+[
+    [ "dynarr_clear", "group__Elements.html#gafde94d3d24d33d8e81c3943db38a6327", null ],
+    [ "dynarr_get", "group__Elements.html#ga93c32dd116523090126d427cce08e114", null ],
+    [ "dynarr_set", "group__Elements.html#ga30d508a9f387e2227dd0d72a8bfd2a39", null ],
+    [ "dynarr_set_zero", "group__Elements.html#ga853ebc7310e119a0ebc946a404e0339a", null ],
+    [ "dynarr_first", "group__Elements.html#ga559fc5ecc4687c6936ea890eeb1c79e2", null ],
+    [ "dynarr_last", "group__Elements.html#ga7ca5c94e8e78fae1860791386fa56ea6", null ],
+    [ "dynarr_append", "group__Elements.html#ga1e7f043863514d809cd6446053f6dc47", null ],
+    [ "dynarr_prepend", "group__Elements.html#ga4f3cc13065faeaa1b71f9b6c62ac7adf", null ],
+    [ "dynarr_pop_back", "group__Elements.html#ga3a36563e7efd7ad826fac165dd2a0d0c", null ],
+    [ "dynarr_pop_front", "group__Elements.html#ga4ba384c69893f0961f0e71d6cd6be8fe", null ],
+    [ "dynarr_insert", "group__Elements.html#gab449a79e6b33f55af35329df4363336e", null ],
+    [ "dynarr_remove", "group__Elements.html#gae2e52e602d3867ce3e5fee688ea20263", null ],
+    [ "dynarr_remove_range", "group__Elements.html#ga1187f49d8bde19551b2c95ad430e596c", null ],
+    [ "dynarr_remove_if", "group__Elements.html#gaa975bac298720adfd05a978509081ada", null ],
+    [ "dynarr_binary_merge", "group__Elements.html#ga0bfdd0d8fbe0ca29ef26df50dc94f310", null ],
+    [ "dynarr_spread_insert", "group__Elements.html#ga00ddd61f7109ab9bb88da4fa5a88fb51", null ],
+    [ "dynarr_binary_find_insert_place", "group__Elements.html#ga5f6a46fc8cc0cfe14d98926cadbaa35d", null ],
+    [ "dynarr_binary_insert", "group__Elements.html#gad2dd0b992152881697da2073a0c840d7", null ],
+    [ "dynarr_binary_insert_uniq", "group__Elements.html#ga4bf1acad0769f98bef64dd4653082cf6", null ],
+    [ "dynarr_binary_reserve", "group__Elements.html#ga20112ff4b2f14ef520353b23c10761de", null ],
+    [ "dynarr_foreach", "group__Elements.html#ga2575dd307a95358e074e07c2b9999a9d", null ],
+    [ "dynarr_aggregate", "group__Elements.html#gac18ed54e516f63ace336c4581f0e60c5", null ],
+    [ "dynarr_transform", "group__Elements.html#ga8246d131a58a23f4d434775bd02bccb3", null ]
+];

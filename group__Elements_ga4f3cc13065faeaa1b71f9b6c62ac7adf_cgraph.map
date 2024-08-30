@@ -1,0 +1,25 @@
+<map id="dynarr_prepend" name="dynarr_prepend">
+<area shape="rect" id="Node000001" title="Prepends an element to the head of a dynarr." alt="" coords="5,81,129,107"/>
+<area shape="rect" id="Node000002" href="$group__Elements.html#gab449a79e6b33f55af35329df4363336e" title="Inserts new element into a dynarr." alt="" coords="177,81,285,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,91,163,91,163,97,130,97"/>
+<area shape="rect" id="Node000003" href="$group__Elements.html#ga30d508a9f387e2227dd0d72a8bfd2a39" title="Sets element at given index to a value." alt="" coords="349,56,440,81"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,83,335,75,336,80,286,88"/>
+<area shape="rect" id="Node000004" href="$group__Properties.html#gaf5c43e2644d185b9b01065af34ed6e29" title="Access size property of a dynarr." alt="" coords="659,107,756,132"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="286,94,645,113,644,119,285,99"/>
+<area shape="rect" id="Node000006" href="$group__Auto-resize.html#ga036b69c5b674d3ac22027b04ba235b42" title=" " alt="" coords="523,5,577,31"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="251,79,288,59,333,41,379,30,427,22,509,16,509,21,427,27,380,35,334,46,290,64,254,84"/>
+<area shape="rect" id="Node000008" href="$group__Auto-resize.html#gadb26f84b95f0ca45c7ccbd72e337485a" title=" " alt="" coords="333,183,456,208"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="254,105,363,173,360,178,252,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="441,73,596,98,645,106,644,111,596,103,440,78"/>
+<area shape="rect" id="Node000005" href="$dynarr_8c.html#a73f42f3f25cd0920d8039d63ea31be07" title=" " alt="" coords="819,107,963,132"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="756,117,805,117,805,122,756,122"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="572,29,598,48,621,70,646,90,660,98,657,103,642,95,618,74,594,52,569,33"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="578,15,665,19,719,27,772,41,823,66,865,96,862,100,820,71,770,46,718,32,665,24,577,20"/>
+<area shape="rect" id="Node000007" href="$group__Properties.html#ga3ff11107726213a640d814b63cb123b2" title="Access current capacity of the dynarr." alt="" coords="644,56,771,81"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="578,24,655,49,653,54,577,29"/>
+<area shape="poly" id="edge13_Node000008_Node000004" title=" " alt="" coords="447,180,645,132,646,137,449,185"/>
+<area shape="poly" id="edge14_Node000008_Node000005" title=" " alt="" coords="417,206,457,227,505,243,550,250,595,243,671,222,743,193,855,136,858,141,745,198,672,227,597,249,550,255,503,249,455,231,415,210"/>
+<area shape="rect" id="Node000009" href="$group__Elements.html#ga93c32dd116523090126d427cce08e114" title="Returns pointer for the element at index." alt="" coords="504,208,596,233"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="457,203,491,208,490,214,456,208"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="569,206,674,137,677,142,572,210"/>
+</map>

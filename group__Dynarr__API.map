@@ -1,0 +1,8 @@
+<map id="Dynarr API" name="Dynarr API">
+<area shape="rect" id="Node000001" title="Main dynarr methods. Callbacks." alt="" coords="5,104,96,129"/>
+<area shape="rect" id="Node000006" href="$group__Elements.html" title="Access and manipulate elements of a dynarr." alt="" coords="147,5,229,31"/>
+<area shape="rect" id="Node000003" href="$group__Extension.html" title="Support for derived classes." alt="" coords="145,55,231,80"/>
+<area shape="rect" id="Node000002" href="$group__Lifetime.html" title="Main dynarr methods." alt="" coords="150,104,226,129"/>
+<area shape="rect" id="Node000004" href="$group__Properties.html" title="Access properties of a dynarr." alt="" coords="144,153,232,179"/>
+<area shape="rect" id="Node000005" href="$group__Searches.html" title="Methods for querying the dynarr." alt="" coords="147,203,229,228"/>
+</map>
