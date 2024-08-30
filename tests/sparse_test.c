@@ -1,4 +1,4 @@
-#include "../src/sparse_array.h"
+#include "../src/sparse.h"
 #include <check.h>
 #include <stdlib.h>
 
