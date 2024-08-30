@@ -6,7 +6,7 @@ TESTS = sparse_test
 check_PROGRAMS = sparse_test
 
 sparse_test_SOURCES = sparse_test.c $(top_srcdir)/src/sparse.h
-sparse_test_LDADD = $(top_builddir)/src/libsparse.la @CHECK_LIBS@
+sparse_test_LDADD = $(top_builddir)/src/libsparse_static.la @CHECK_LIBS@
 sparse_test_LIBS = $(CODE_COVERAGE_LIBS)
 sparse_test_CPPFLAGS = -I$(top_srcdir)/dynarr/src/ \
 					   -I$(top_srcdir)/dynarr/vector/src/ \
