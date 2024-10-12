@@ -1,0 +1,41 @@
+name: Render Readme
+
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GH_PAGES_DEPLOYMENT_TOKEN }}
+
+      - name: Download statuses
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-status'
+          path: statuses
+          merge-multiple: true
+
+      - name: Render README.md
+        run: |
+          cp README.md.in README.md
+          for path in statuses/* ; do
+          filename=$(basename $path)
+          sed -i "s@%${filename}%@$(cat ${path})@g" README.md
+          done
+
+      - name: Configure Git
+        run: |
+          git config --global user.name Github Actions
+          git config --global user.email actions@github.com
+
+      - name: Update push README.md
+        run: |
+          git add README.md
+          git diff --staged --quiet && \
+            (echo "No changes in README.md.") || \
+            (git commit -m "[skip ci] Update README.md" && git push)

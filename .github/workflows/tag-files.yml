@@ -27,7 +27,8 @@ jobs:
 
       - name: Update push tagfile
         run: |
-          wget "${{ inputs.url }}/$REPOSITORY_NAME/$REPOSITORY_NAME.tag"
+          sleep 5
+          wget --retry-on-http-error=404 --waitretry=30 "${{ inputs.url }}/$REPOSITORY_NAME/$REPOSITORY_NAME.tag"
           git add -f "$REPOSITORY_NAME.tag"
           git diff --staged --quiet && \
             (echo "No changes in tagfile.") || \

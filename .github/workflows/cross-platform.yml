@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   call-linux:
@@ -13,8 +14,13 @@ jobs:
   call-windows:
     uses: ./.github/workflows/windows.yml
     secrets: inherit
-  call-doxygen-gh-pages:
+  call-render-readme:
     needs: [call-linux, call-windows]
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/render-readme.yml
+    secrets: inherit
+  call-doxygen-gh-pages:
+    needs: [call-render-readme]
     if: github.event_name == 'push'
     uses: ./.github/workflows/doxygen-gh-pages.yml
     secrets: inherit
@@ -24,3 +30,10 @@ jobs:
     with:
       url: https://evjeesm.github.io/
     secrets: inherit
+  call-static:
+    needs: [call-tag-files]
+    uses: ./.github/workflows/static.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
