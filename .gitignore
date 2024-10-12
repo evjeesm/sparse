@@ -21,6 +21,7 @@
 !*.h
 !*.am
 !*.ac
+!*.md.in
 
 !.gitignore
 !.clangd
