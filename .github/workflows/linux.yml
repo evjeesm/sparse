@@ -1,12 +1,13 @@
-name: Linux Debian CI
+name: Linux CI
 
 on:
   workflow_call:
+env:
+  PLATFORM: Linux
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
@@ -43,7 +44,7 @@ jobs:
         flags: debian
         name:  Linux Debian CI
         token: ${{ secrets.CODECOV_TOKEN }}
-
+  
     - name: Archive test logs
       uses: actions/upload-artifact@v4
       if: failure()
@@ -56,3 +57,25 @@ jobs:
 
     - name: Run distcheck
       run: make distcheck
+
+  report-status:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [build]
+    steps:
+      - name: Create status badge
+        run: |
+          case ${{ needs.build.result }} in \
+          success) echo "![status](https://img.shields.io/badge/${{ env.PLATFORM }}-passes-green)" > ${{ env.PLATFORM }}-status.md ;; \
+          failure) echo "![status](https://img.shields.io/badge/${{ env.PLATFORM }}-failed-red)" > ${{ env.PLATFORM }}-status.md ;; \
+          cancelled) echo "![status](https://img.shields.io/badge/${{ env.PLATFORM }}-cancelled-lightgrey)" > ${{ env.PLATFORM }}-status.md ;; \
+          esac
+
+      - name: Make status artifact name
+        run: echo STATUS_NAME=${{ env.PLATFORM }}-status >> $GITHUB_ENV
+
+      - name: Upload status badge
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.STATUS_NAME }}
+          path: '*-status.md'
