@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🧨_20deallocating_20sparse_20array_0',['🧨 Deallocating Sparse Array',['../Guide.html#deallocate',1,'']]]
+  ['📘_20guide_0',['📘 Guide',['../Guide.html',1,'']]]
 ];

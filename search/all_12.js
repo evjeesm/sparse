@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📘_20guide_0',['📘 Guide',['../Guide.html',1,'']]]
+  ['⬆️_20extending_20sparse_20array_0',['⬆️ Extending Sparse Array',['../Guide.html#sparse_extend',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🔨_20creating_20sparse_20array_0',['🔨 Creating Sparse Array',['../Guide.html#create',1,'']]]
+  ['⿻_20clone_20an_20existing_20array_0',['⿻ Clone an existing array',['../Guide.html#cloning',1,'']]]
 ];

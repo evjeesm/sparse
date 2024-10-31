@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['⿻_20clone_20an_20existing_20array_0',['⿻ Clone an existing array',['../Guide.html#cloning',1,'']]]
+  ['❌_20error_20handling_0',['❌ Error handling',['../Guide.html#handle_alloc_error',1,'']]]
 ];

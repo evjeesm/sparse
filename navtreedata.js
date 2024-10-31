@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "Sparse", "index.html", [
-    [ "Sparse Array", "index.html", null ],
+    [ "Sparse Array", "index.html", "index" ],
     [ "📘 Guide", "Guide.html", [
       [ "🔨 Creating Sparse Array", "Guide.html#create", [
         [ "⚙️ With default options", "Guide.html#def_create", null ],
