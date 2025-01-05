@@ -70,15 +70,21 @@ size_t sparse_element_size(const sparse_t *const array);
 
 
 /*
-* Size including empty elements. (last index + 1)
-*/
-size_t sparse_range(const sparse_t *const array);
-
-
-/*
 * Actual amount of stored elements. (excluding empty ones)
 */
 size_t sparse_size(const sparse_t *const array);
+
+
+/*
+* Returns first free index. (Middle insert may cause inefficiencies)
+*/
+size_t sparse_first_free_index(const sparse_t *const array);
+
+
+/*
+* Returns last free index that can be used to reserve an element.
+*/
+size_t sparse_last_free_index(const sparse_t *const array);
 
 
 /*

@@ -32,7 +32,7 @@ static void teardown(void)
 START_TEST (test_sparse_create)
 {
     ck_assert_ptr_nonnull(array);
-    ck_assert_uint_eq(sparse_range(array), 0);
+    ck_assert_uint_eq(sparse_last_free_index(array), 0);
     ck_assert_uint_eq(sparse_size(array), 0);
 }
 END_TEST

@@ -91,10 +91,30 @@ size_t sparse_element_size(const sparse_t *const array)
 }
 
 
-size_t sparse_range(const sparse_t *const array)
+size_t sparse_first_free_index(const sparse_t *const array)
 {
     assert(array);
-    if (dynarr_size(array) == 0) return 0;
+
+    const size_t size = sparse_size(array);
+    size_t index = 0;
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        pair_t *pair = (pair_t *)dynarr_get(array, i);
+        if (pair->index > index)
+        {
+            return index;
+        }
+        index = pair->index + 1;
+    }
+    return index;
+}
+
+
+size_t sparse_last_free_index(const sparse_t *const array)
+{
+    assert(array);
+    if (sparse_size(array) == 0) return 0;
     pair_t *p = (pair_t *)dynarr_last(array);
     return p->index + 1;
 }
