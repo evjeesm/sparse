@@ -16,12 +16,13 @@ jobs:
     secrets: inherit
   call-render-readme:
     needs: [call-linux, call-windows]
-    if: github.event_name == 'push'
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/render-readme.yml
     secrets: inherit
   call-doxygen-gh-pages:
     needs: [call-render-readme]
-    if: github.event_name == 'push'
     uses: ./.github/workflows/doxygen-gh-pages.yml
     secrets: inherit
   call-tag-files:
