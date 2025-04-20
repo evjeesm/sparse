@@ -76,6 +76,18 @@ size_t sparse_size(const sparse_t *const array);
 
 
 /*
+* Returns first stored index.
+*/
+size_t sparse_first_index(const sparse_t *const array);
+
+
+/*
+* Returns last stored index.
+*/
+size_t sparse_last_index(const sparse_t *const array);
+
+
+/*
 * Returns first free index. (Middle insert may cause inefficiencies)
 */
 size_t sparse_first_free_index(const sparse_t *const array);

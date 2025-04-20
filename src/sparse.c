@@ -112,6 +112,26 @@ size_t sparse_element_size(const sparse_t *const array)
 }
 
 
+size_t sparse_first_index(const sparse_t *const array)
+{
+    assert(array);
+    assert(sparse_size(array) != 0);
+
+    pair_t *first = dynarr_first(array);
+    return first->index;
+}
+
+
+size_t sparse_last_index(const sparse_t *const array)
+{
+    assert(array);
+    assert(sparse_size(array) != 0);
+
+    pair_t *last = dynarr_last(array);
+    return last->index;
+}
+
+
 size_t sparse_first_free_index(const sparse_t *const array)
 {
     assert(array);
