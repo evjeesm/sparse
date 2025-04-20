@@ -13,6 +13,23 @@ typedef struct
 }
 pair_t;
 
+
+typedef struct
+{
+    sparse_foreach_t func;
+    void *param;
+}
+adapt_foreach_param_t;
+
+
+typedef struct
+{
+    sparse_aggregate_t func;
+    void *param;
+}
+adapt_aggregate_param_t;
+
+
 /*                            ***
 * ===  Forward Declarations === *
 ***                            */
@@ -36,6 +53,10 @@ static bool match_by_index(const void *const element, void *const index);
 * Access header allocated in underlying storage layer.
 */
 static sparse_header_t *get_sparse_header(const sparse_t *const array);
+
+static int adapt_foreach(const void *const element, void *const param);
+
+static int adapt_aggregate(const void *const element, void *const acc, void *const param);
 
 
 /*                           ***
@@ -170,6 +191,7 @@ sparse_status_t sparse_insert_reserve(sparse_t **const array, const size_t index
     return SPARSE_SUCCESS;
 }
 
+
 sparse_status_t sparse_remove(sparse_t **const array, const size_t index)
 {
     assert(array && *array);
@@ -194,6 +216,50 @@ bool sparse_is_empty_element(const sparse_t *const array, const size_t index)
 {
     assert(array);
     return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_to_pair, NULL);
+}
+
+
+int sparse_foreach(const sparse_t *const sparse,
+        const sparse_foreach_t func,
+        void *const param)
+{
+    assert(sparse);
+    assert(func);
+
+    adapt_foreach_param_t aparam = {
+        .func = func,
+        .param = param,
+    };
+
+    return dynarr_foreach(sparse, adapt_foreach, &aparam);
+}
+
+
+int sparse_aggregate(const sparse_t *const sparse,
+        const sparse_aggregate_t func,
+        void *const acc,
+        void *const param)
+{
+    assert(sparse);
+    assert(func);
+
+    adapt_aggregate_param_t aparam = {
+        .func = func,
+        .param = param,
+    };
+
+    return dynarr_aggregate(sparse, adapt_aggregate, acc, &aparam);
+}
+
+
+int sparse_transform(sparse_t *const sparse,
+        const sparse_transform_t func,
+        void *const param)
+{
+    assert(sparse);
+    assert(func);
+
+    return sparse_foreach(sparse, (sparse_foreach_t)func, param);
 }
 
 
@@ -224,4 +290,20 @@ static bool match_by_index(const void *const element, void *const index)
 static sparse_header_t *get_sparse_header(const sparse_t *const array)
 {
     return dynarr_get_ext_header(array);
+}
+
+
+static int adapt_foreach(const void *const element, void *const param)
+{
+    const pair_t *p = element;
+    adapt_foreach_param_t *adapt = param;
+    return adapt->func(p->index, &p->value, adapt->param);
+}
+
+
+static int adapt_aggregate(const void *const element, void *const acc, void *const param)
+{
+    const pair_t *p = element;
+    adapt_aggregate_param_t *adapt = param;
+    return adapt->func(p->index, &p->value, acc, adapt->param);
 }

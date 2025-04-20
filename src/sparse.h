@@ -123,4 +123,21 @@ sparse_status_t sparse_remove(sparse_t **const array, const size_t index);
 bool sparse_is_empty_element(const sparse_t *const array, const size_t index);
 
 
+typedef int (*sparse_foreach_t) (const size_t index, const void *const element, void *const param);
+typedef int (*sparse_aggregate_t) (const size_t index, const void *const element, void *const acc, void *const param);
+typedef int (*sparse_transform_t) (const size_t index, void *const element, void *const param);
+
+int sparse_foreach(const sparse_t *const sparse,
+        const sparse_foreach_t func,
+        void *const param);
+
+int sparse_aggregate(const sparse_t *const sparse,
+        const sparse_aggregate_t func,
+        void *const acc,
+        void *const param);
+
+int sparse_transform(sparse_t *const sparse,
+        const sparse_transform_t func,
+        void *const param);
+
 #endif/*_SPARSE_H_*/
