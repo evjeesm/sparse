@@ -8,10 +8,10 @@
 
 typedef struct
 {
-    size_t index;
+    sparse_index_t index;
     char value[];
 }
-pair_t;
+sparse_pair_t;
 
 
 typedef struct
@@ -19,7 +19,7 @@ typedef struct
     sparse_foreach_t func;
     void *param;
 }
-adapt_foreach_param_t;
+sparse_adapt_foreach_param_t;
 
 
 typedef struct
@@ -27,7 +27,7 @@ typedef struct
     sparse_aggregate_t func;
     void *param;
 }
-adapt_aggregate_param_t;
+sparse_adapt_aggregate_param_t;
 
 
 /*                            ***
@@ -36,15 +36,15 @@ adapt_aggregate_param_t;
 
 /*
 * Used for finding insertion place for pair
-*   value   -> pair_t *pair_to_insert
-*   element -> pair_t *pair_in_the_arraytor
+*   value   -> sparse_pair_t *sparse_pair_to_insert
+*   element -> sparse_pair_t *pair_in_the_arraytor
 */
 static ssize_t cmp_pairs_by_index(const void *const value, const void *const element, void *const param);
 
 /*
 * Used for binary search of the pair by providen index
 *   value   -> size_t *index
-*   element -> pair_t *pair
+*   element -> sparse_pair_t *pair
 */
 static ssize_t cmp_index_to_pair(const void *const value, const void *const element, void *const param);
 
@@ -54,9 +54,9 @@ static bool match_by_index(const void *const element, void *const index);
 */
 static sparse_header_t *get_sparse_header(const sparse_t *const array);
 
-static int adapt_foreach(const void *const element, void *const param);
+static int sparse_adapt_foreach(const void *const element, void *const param);
 
-static int adapt_aggregate(const void *const element, void *const acc, void *const param);
+static int sparse_adapt_aggregate(const void *const element, void *const acc, void *const param);
 
 
 /*                           ***
@@ -117,7 +117,7 @@ size_t sparse_first_index(const sparse_t *const array)
     assert(array);
     assert(sparse_size(array) != 0);
 
-    pair_t *first = dynarr_first(array);
+    sparse_pair_t *first = dynarr_first(array);
     return first->index;
 }
 
@@ -127,7 +127,7 @@ size_t sparse_last_index(const sparse_t *const array)
     assert(array);
     assert(sparse_size(array) != 0);
 
-    pair_t *last = dynarr_last(array);
+    sparse_pair_t *last = dynarr_last(array);
     return last->index;
 }
 
@@ -137,11 +137,11 @@ size_t sparse_first_free_index(const sparse_t *const array)
     assert(array);
 
     const size_t size = sparse_size(array);
-    size_t index = 0;
+    sparse_index_t index = 0;
 
     for (size_t i = 0; i < size; ++i)
     {
-        pair_t *pair = (pair_t *)dynarr_get(array, i);
+        sparse_pair_t *pair = (sparse_pair_t *)dynarr_get(array, i);
         if (pair->index > index)
         {
             return index;
@@ -156,7 +156,7 @@ size_t sparse_last_free_index(const sparse_t *const array)
 {
     assert(array);
     if (sparse_size(array) == 0) return 0;
-    pair_t *p = (pair_t *)dynarr_last(array);
+    sparse_pair_t *p = (sparse_pair_t *)dynarr_last(array);
     return p->index + 1;
 }
 
@@ -174,7 +174,7 @@ sparse_status_t sparse_insert(sparse_t **const array, const size_t index, const 
     assert(value);
 
     /* element for given index already exists */
-    if (vector_binary_find(*array, &index, dynarr_size(*array), cmp_index_to_pair, NULL))
+    if (dynarr_binary_find(*array, &index, cmp_index_to_pair, NULL))
     {
         return SPARSE_INSERT_INDEX_OVERRIDE;
     }
@@ -183,7 +183,7 @@ sparse_status_t sparse_insert(sparse_t **const array, const size_t index, const 
     dynarr_status_t status = dynarr_binary_reserve(array, &index, cmp_index_to_pair, NULL, &place);
     if (DYNARR_SUCCESS != status) return (sparse_status_t)status;
 
-    pair_t *pair = dynarr_get(*array, place);
+    sparse_pair_t *pair = dynarr_get(*array, place);
     pair->index = index;
     memcpy(pair->value, value, sparse_element_size(*array));
 
@@ -196,7 +196,7 @@ sparse_status_t sparse_insert_reserve(sparse_t **const array, const size_t index
     assert(array && *array);
 
     /* element for given index already exists */
-    if (vector_binary_find(*array, &index, dynarr_size(*array), cmp_index_to_pair, NULL))
+    if (dynarr_binary_find(*array, &index, cmp_index_to_pair, NULL))
     {
         return SPARSE_INSERT_INDEX_OVERRIDE;
     }
@@ -205,7 +205,7 @@ sparse_status_t sparse_insert_reserve(sparse_t **const array, const size_t index
     dynarr_status_t status = dynarr_binary_reserve(array, &index, cmp_index_to_pair, NULL, &place);
     if (DYNARR_SUCCESS != status) return (sparse_status_t)status;
 
-    pair_t *pair = dynarr_get(*array, place);
+    sparse_pair_t *pair = dynarr_get(*array, place);
     pair->index = index;
 
     return SPARSE_SUCCESS;
@@ -215,7 +215,7 @@ sparse_status_t sparse_insert_reserve(sparse_t **const array, const size_t index
 sparse_status_t sparse_remove(sparse_t **const array, const size_t index)
 {
     assert(array && *array);
-    
+
     dynarr_status_t status = dynarr_remove_if(array, match_by_index, 1, (void *const)&index);
 
     if (DYNARR_SHRINK_ERROR == status) return SPARSE_ALLOC_ERROR;
@@ -226,7 +226,7 @@ sparse_status_t sparse_remove(sparse_t **const array, const size_t index)
 void* sparse_get(const sparse_t *const array, const size_t index)
 {
     assert(array);
-    pair_t *p = (pair_t *)vector_binary_find(array, &index, dynarr_size(array), cmp_index_to_pair, NULL);
+    sparse_pair_t *p = (sparse_pair_t *)dynarr_binary_find(array, &index, cmp_index_to_pair, NULL);
     if (!p) return NULL;
     return p->value;
 }
@@ -235,7 +235,7 @@ void* sparse_get(const sparse_t *const array, const size_t index)
 bool sparse_is_empty_element(const sparse_t *const array, const size_t index)
 {
     assert(array);
-    return !vector_binary_find(array, &index, dynarr_size(array), cmp_index_to_pair, NULL);
+    return !dynarr_binary_find(array, &index, cmp_index_to_pair, NULL);
 }
 
 
@@ -246,12 +246,12 @@ int sparse_foreach(const sparse_t *const sparse,
     assert(sparse);
     assert(func);
 
-    adapt_foreach_param_t aparam = {
+    sparse_adapt_foreach_param_t aparam = {
         .func = func,
         .param = param,
     };
 
-    return dynarr_foreach(sparse, adapt_foreach, &aparam);
+    return dynarr_foreach(sparse, sparse_adapt_foreach, &aparam);
 }
 
 
@@ -263,12 +263,12 @@ int sparse_aggregate(const sparse_t *const sparse,
     assert(sparse);
     assert(func);
 
-    adapt_aggregate_param_t aparam = {
+    sparse_adapt_aggregate_param_t aparam = {
         .func = func,
         .param = param,
     };
 
-    return dynarr_aggregate(sparse, adapt_aggregate, acc, &aparam);
+    return dynarr_aggregate(sparse, sparse_adapt_aggregate, acc, &aparam);
 }
 
 
@@ -290,20 +290,20 @@ int sparse_transform(sparse_t *const sparse,
 static ssize_t cmp_pairs_by_index(const void *const value, const void *const element, void *const param)
 {
     (void)param;
-    return (ssize_t) ((const pair_t *)value)->index - ((const pair_t *)element)->index;
+    return (ssize_t) ((const sparse_pair_t *)value)->index - ((const sparse_pair_t *)element)->index;
 }
 
 
 static ssize_t cmp_index_to_pair(const void *const value, const void *const element, void *const param)
 {
     (void)param;
-    return (ssize_t)*(size_t*) value - ((const pair_t *) element)->index;
+    return (ssize_t)*(size_t*) value - ((const sparse_pair_t *) element)->index;
 }
 
 
 static bool match_by_index(const void *const element, void *const index)
 {
-    return ((pair_t*)element)->index == *(size_t*)index;
+    return ((sparse_pair_t*)element)->index == *(sparse_index_t*)index;
 }
 
 
@@ -313,17 +313,17 @@ static sparse_header_t *get_sparse_header(const sparse_t *const array)
 }
 
 
-static int adapt_foreach(const void *const element, void *const param)
+static int sparse_adapt_foreach(const void *const element, void *const param)
 {
-    const pair_t *p = element;
-    adapt_foreach_param_t *adapt = param;
-    return adapt->func(p->index, &p->value, adapt->param);
+    const sparse_pair_t *p = element;
+    sparse_adapt_foreach_param_t *sparse_adapt = param;
+    return sparse_adapt->func(p->index, &p->value, sparse_adapt->param);
 }
 
 
-static int adapt_aggregate(const void *const element, void *const acc, void *const param)
+static int sparse_adapt_aggregate(const void *const element, void *const acc, void *const param)
 {
-    const pair_t *p = element;
-    adapt_aggregate_param_t *adapt = param;
-    return adapt->func(p->index, &p->value, acc, adapt->param);
+    const sparse_pair_t *p = element;
+    sparse_adapt_aggregate_param_t *sparse_adapt = param;
+    return sparse_adapt->func(p->index, &p->value, acc, sparse_adapt->param);
 }

@@ -3,6 +3,13 @@
 
 #include "dynarr.h"
 
+#ifndef SPARSE_INDEX_TYPE
+#    include <sys/types.h>
+#    define SPARSE_INDEX_TYPE ssize_t
+#endif
+
+typedef SPARSE_INDEX_TYPE sparse_index_t;
+
 #define ALIGNMENT sizeof(size_t)
 
 typedef dynarr_t sparse_t;
@@ -21,6 +28,7 @@ typedef struct
 {
     size_t element_size; /* stores actual data size 
                             (excuding index and padding) */
+    // size_t reserved_left_offset; /* head insert optimization */
 }
 sparse_header_t;
 
